@@ -86,14 +86,14 @@ The **learn_wiki2vec.py** script is the same of learn_word2vec.py, but specifica
 
 ## Examples
 
-[Word2Vec ran on 29M steam videogame reviews.](demo/game_w2v/index.html)
+[Word2Vec ran on 29M steam videogame reviews.](http://www.esuli.it/demo/embeddings/game_w2v/index.html)
 
-[Game similarity modeled with Doc2Vec on 29M steam videogame reviews.](demo/game_d2v/index.html)
+[Game similarity modeled with Doc2Vec on 29M steam videogame reviews.](http://www.esuli.it/demo/embeddings/game_d2v/index.html)
 
 Game reviews were downloaded using the [steam crawler](https://github.com/aesuli/steam-crawler)
 
-[Word2Vec ran on 75k Italian reviews of restaurants in Pisa.](demo/pisa_rest_w2v/index.html)
+[Word2Vec ran on 75k Italian reviews of restaurants in Pisa.](http://www.esuli.it/demo/embeddings/pisa_rest_w2v/index.html)
 
-[Similar restaurants in Pisa modeled with Doc2Vec on 75k Italian reviews of restaurants in Pisa.](demo/pisa_rest_d2v/index.html)
+[Similar restaurants in Pisa modeled with Doc2Vec on 75k Italian reviews of restaurants in Pisa.](http://www.esuli.it/demo/embeddings/pisa_rest_d2v/index.html)
 
 Restaurant reviews were downloaded using the [TripAdvisor crawler](https://github.com/aesuli/trip-advisor-crawler)
