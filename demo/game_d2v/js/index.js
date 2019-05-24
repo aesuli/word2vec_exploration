@@ -8,7 +8,7 @@ var wi = window,
 var circleWidth = 3;
 
 var fontFamily = 'Bree Serif',
-    fontSizeHighlight = 2
+    fontSizeHighlight = 2,
     fontSizeNormal = 0.8;
 
 var palette = {

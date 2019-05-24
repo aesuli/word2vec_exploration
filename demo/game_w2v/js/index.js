@@ -31,31 +31,49 @@ var palette = {
       "green": "#259286",
       "yellowgreen": "#738A05"
   }
+  
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+	
+scale = 1;
+	
+var margin = {top: -5, right: -5, bottom: -5, left: -5},
+    width = wi.w - margin.left - margin.right- margin.left - margin.right,
+    height = wi.h - margin.top - margin.bottom- margin.top - margin.bottom;
 
-
-
-var vis = d3.select("body")
-    .append("svg:svg")
+var svg = d3.select("body")
+    .append("svg")
       .attr("class", "stage")
-      .attr("width", w)
-      .attr("height", h);
-
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+      .call(zoom);
+	  
+var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+		
 var force = d3.layout.force()
     .nodes(nodes)
     .links(links)
-    .gravity(.4)
-    .charge(-200)
-    .linkStrength(10)
+    .gravity(.1)
+    .charge(-100)
+    .linkStrength(1)
     .size([w, h]);
 
-var link = vis.selectAll(".link")
+var link = svg.selectAll(".link")
     .data(links)
     .enter().append("line")
     .attr("class", "link")
     .attr("stroke", "#CCC")
-    .attr("fill", "none");
+    .attr("fill", "none")
+	.attr("vector-effect", "non-scaling-stroke");
 
-var node = vis.selectAll("circle.node")
+var node = svg.selectAll("circle.node")
     .data(nodes)
     .enter().append("g")
     .attr("class", "node")
@@ -76,7 +94,7 @@ var node = vis.selectAll("circle.node")
             .style("cursor", "none")
             .duration(250)
             .style("cursor", "none")
-            .attr("font-size",fontSizeHighlight)
+            .attr("font-size",fontSizeHighlight/scale+'em')
             .attr("x", 15 )
             .attr("y", 5 )
         } else {
@@ -103,7 +121,7 @@ var node = vis.selectAll("circle.node")
             d3.select(this).select("text")
             .transition()
             .duration(250)
-            .attr("font-size",fontSizeNormal)
+            .attr("font-size",(fontSizeNormal/scale)+'em')
             .attr("x", 8 )
             .attr("y", 4 )
         }
@@ -126,8 +144,9 @@ node.append("text")
   .attr("y",            function(d, i) { if (i>0) { return circleWidth + 0 }    else { return 8 } })
   .attr("font-family",  "Bree Serif")
   .attr("fill",         function(d, i) {  return  palette.paleryellow;  })
-  .attr("font-size",    function(d, i) {  return  fontSizeNormal; })
-  .attr("text-anchor",  function(d, i) { if (i>0) { return  "beginning"; }      else { return "end" } })
+  .attr("font-size",    function(d, i) {  return  (fontSizeNormal/scale)+'em'; })
+  .attr("text-anchor",  function(d, i) { if
+  (i>0) { return  "beginning"; }      else { return "end" } })
 
 force.on("tick", function(e) {
   node.attr("transform", function(d, i) {     
@@ -140,11 +159,17 @@ force.on("tick", function(e) {
        .attr("y2", function(d)   { return d.target.y; })
 });
 
+function zoomed() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  scale =  d3.event.scale
+  svg.selectAll("text").attr("font-size",(fontSizeNormal/scale)+'em');
+}
+
 function updateWindow(){
     x = wi.innerWidth || e.clientWidth || g.clientWidth;
     y = wi.innerHeight|| e.clientHeight|| g.clientHeight;
 
-    vis.attr("width", x).attr("height", y);
+    d3.select('svg').attr("width", x).attr("height", y);
 }
 window.onresize = updateWindow;
 
